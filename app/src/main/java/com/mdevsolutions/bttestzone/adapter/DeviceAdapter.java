@@ -35,6 +35,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
         BtDevice device = deviceList.get(position);
         holder.mName.setText(device.getName());
         holder.mAddress.setText(device.getAddress());
+
         //holder.mRssi.setText(""+device.getRssi());
     }
 
@@ -57,7 +58,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
             mName = (TextView)itemView.findViewById(R.id.device_name);
             mAddress = (TextView)itemView.findViewById(R.id.device_address);
-            mRssi = (TextView)itemView.findViewById(R.id.device_rssi);
+            //mRssi = (TextView)itemView.findViewById(R.id.device_rssi);
             container = itemView.findViewById(R.id.list_item_root);
 
         }

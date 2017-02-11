@@ -12,8 +12,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mdevsolutions.bttestzone.adapter.DeviceAdapter;
+import com.mdevsolutions.bttestzone.model.BtDevice;
 import com.mdevsolutions.bttestzone.model.DeviceData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class BluetoothActivity extends AppCompatActivity {
@@ -21,9 +24,11 @@ public class BluetoothActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private RecyclerView mDeviceRecView;
     private DeviceAdapter mDeviceAdapter;
-    private Set<BluetoothDevice> mPairedDevices;
-    private int mPairedCount = 0;
+    private Set<BluetoothDevice> mPairedDevices=null;
+    private Set<BluetoothDevice> mDiscoveredDevices=null;
+    private List<BtDevice> mDeviceList=null;
     private EditText mPairedEt;
+
 
 
     @Override
@@ -33,14 +38,47 @@ public class BluetoothActivity extends AppCompatActivity {
         mDeviceRecView = (RecyclerView) findViewById(R.id.deviceRv);
         mDeviceRecView.setLayoutManager(new LinearLayoutManager(this));
 
-
+        // mDeviceAdapter = new DeviceAdapter(mDeviceList,this);
         mDeviceAdapter = new DeviceAdapter(DeviceData.getDeviceData(),this);
+        mDeviceAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                notifyAll();
+            }
+        });
         mDeviceRecView.setAdapter(mDeviceAdapter);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         init();
 
+        queryDevice();
+//        if (mPairedDevices.size()>0) {
+//            mDeviceList = populateDeviceList(mPairedDevices);
+//        }
+
+
     }
+
+    private Set<BluetoothDevice> deviceDiscovery() {
+        return null;
+    }
+
+    // TODO move this into the model package as it is data related
+    private List<BtDevice> populateDeviceList(Set<BluetoothDevice> paired) {
+        List<BtDevice> devices = new ArrayList<>();
+        BtDevice dev = new BtDevice();
+
+        for (BluetoothDevice device : paired) {
+            String name = device.getName();
+            String address = device.getAddress();
+            dev.setName(name);
+            dev.setAddress(address);
+            devices.add(dev);
+        }
+        return devices;
+    }
+
 
 
     @Override
@@ -71,20 +109,8 @@ public class BluetoothActivity extends AppCompatActivity {
     private void queryDevice() {
         mPairedEt = (EditText)findViewById(R.id.PairedDeviceseditText);
         mPairedDevices = mBluetoothAdapter.getBondedDevices();
-        Toast.makeText(this,"Devices Found", Toast.LENGTH_LONG).show();
-        if(mPairedDevices.size() >0){
-            //greater than 0 so at least one device was found
-            for (BluetoothDevice device : mPairedDevices){
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); //MAC addy
-                mPairedCount++;
-            }
-
-            mPairedEt.setText(""+mPairedCount)
-            ;
-        }
-        else{
-            Toast.makeText(this,"There are no paired bluetooth_device at this moment.",Toast.LENGTH_LONG).show();
+        if (mPairedDevices.size()==0){
+            Toast.makeText(this, R.string.no_paired_devices,Toast.LENGTH_LONG).show();
         }
     }
 
