@@ -4,4 +4,6 @@
     <string name="device_address">Device Address</string>
     <string name="device_rssi">Device RSSI</string>
     <string name="no_paired_devices">No paired devices have been found</string>
+    <string name="broadcast">Broadcast Message Received</string>
+    <string name="discovery_started">\"Discovery in progress</string>
 </resources>

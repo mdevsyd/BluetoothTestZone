@@ -2,7 +2,10 @@ package com.mdevsolutions.bttestzone.model;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.provider.SyncStateContract;
 import android.util.Log;
 
@@ -13,10 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static java.security.AccessController.getContext;
+
 /**
  * Created by Michi on 5/02/2017.
  */
 public class DeviceData {
+
+    private static BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 //    private static String mName;
 //    private static String mAddress;
@@ -25,7 +32,7 @@ public class DeviceData {
     public static List<BtDevice> getDeviceData() {
         List<BtDevice> devices = new ArrayList<>();
 
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         Set<BluetoothDevice> mPairedDevices = mBluetoothAdapter.getBondedDevices();
 
 
@@ -41,12 +48,8 @@ public class DeviceData {
             Log.d(Constants.DEBUG_TAG, "I've just added " + dev.getName());
 
         }
-       return devices;
+        return devices;
 
     }
+
 }
-
-
-
-
-
