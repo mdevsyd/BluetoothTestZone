@@ -1,6 +1,5 @@
 package com.mdevsolutions.bttestzone.adapter;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,30 +8,39 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mdevsolutions.bttestzone.R;
+import com.mdevsolutions.bttestzone.model.BtDevice;
 
 import java.util.List;
 
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHolder>{
 
-    private List<BluetoothDevice> mDeviceList;
-    private LayoutInflater mInflater;
+    private List<BtDevice> deviceList;
+    private LayoutInflater inflater;
 
-
+    //constructor
+    public DeviceAdapter (List<BtDevice> deviceList, Context c){
+        this.inflater = LayoutInflater.from(c);
+        this.deviceList = deviceList;
+    }
 
     @Override
     public DeviceHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = inflater.inflate(R.layout.bluetooth_device, parent, false);
+        return new DeviceHolder(view);
     }
 
     @Override
     public void onBindViewHolder(DeviceHolder holder, int position) {
-
+        BtDevice device = deviceList.get(position);
+        holder.mName.setText(device.getName());
+        holder.mAddress.setText(device.getAddress());
+        //holder.mRssi.setText(""+device.getRssi());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return deviceList.size();
     }
 
     /** class represents a single view of our data item**/
@@ -43,6 +51,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
         private TextView mRssi;
         private View container;
 
+        //itemView is an instance of the single item view (one device in the list)
         public DeviceHolder(View itemView) {
             super(itemView);
 
@@ -53,33 +62,8 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
         }
     }
-//    private ArrayList<BluetoothDevice> mDevices;
-//    private LayoutInflater mInflater;
-    Context mContext;
-    /**
-    public DeviceAdapter(Activity activity){
-        mDevices = new ArrayList<BluetoothDevice>();
-        mInflater = activity.getLayoutInflater();
-    }
-    @Override
-    public int getCount() {
-        return 0;
-    }
 
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
-    }**/
 
 
 }

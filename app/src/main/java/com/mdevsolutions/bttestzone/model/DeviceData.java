@@ -10,16 +10,16 @@ public class DeviceData {
 
     private static String[] names = {"Device 1", "Device 2", "Device 3"};
     private static String[] addresses = {"blah", "doop", "lingling"};
-    private static int[] rssi = {100, 99, 28};
+    //private static String[] rssi = {"100", "99", "28"};
 
-    public static List<BluetoothDevice> getDeviceData() {
-        List<BluetoothDevice> devices = new ArrayList<>();
+    public static List<BtDevice> getDeviceData() {
+        List<BtDevice> devices = new ArrayList<>();
 
-        for (int i = 0; i < names.length && i < addresses.length && i < rssi.length; i++) {
-            BluetoothDevice dev = new BluetoothDevice();
+        for (int i = 0; i < names.length && i < addresses.length; i++) {
+            BtDevice dev = new BtDevice();
             dev.setName(names[i]);
             dev.setAddress(addresses[i]);
-            dev.setRssi(rssi[i]);
+           // dev.setRssi(rssi[i]);
             devices.add(dev);
 
         }

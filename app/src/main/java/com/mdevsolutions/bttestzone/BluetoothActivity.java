@@ -12,14 +12,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mdevsolutions.bttestzone.adapter.DeviceAdapter;
+import com.mdevsolutions.bttestzone.model.DeviceData;
 
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class BluetoothActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
     private RecyclerView mDeviceRecView;
-    private DeviceAdapter mDeviceAdapter = null;
+    private DeviceAdapter mDeviceAdapter;
     private Set<BluetoothDevice> mPairedDevices;
     private int mPairedCount = 0;
     private EditText mPairedEt;
@@ -28,11 +29,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         mDeviceRecView = (RecyclerView) findViewById(R.id.deviceRv);
         mDeviceRecView.setLayoutManager(new LinearLayoutManager(this));
-        setContentView(R.layout.activity_main);
+
+
+        mDeviceAdapter = new DeviceAdapter(DeviceData.getDeviceData(),this);
+        mDeviceRecView.setAdapter(mDeviceAdapter);
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         init();
+
     }
 
 
@@ -58,13 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Check for previously paired BT devices on host device
+     */
     private void queryDevice() {
         mPairedEt = (EditText)findViewById(R.id.PairedDeviceseditText);
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        mPairedDevices = mBluetoothAdapter.getBondedDevices();
         Toast.makeText(this,"Devices Found", Toast.LENGTH_LONG).show();
-        if(pairedDevices.size() >0){
+        if(mPairedDevices.size() >0){
             //greater than 0 so at least one device was found
-            for (BluetoothDevice device : pairedDevices){
+            for (BluetoothDevice device : mPairedDevices){
                 String deviceName = device.getName();
                 String deviceHardwareAddress = device.getAddress(); //MAC addy
                 mPairedCount++;
@@ -74,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             ;
         }
         else{
-            Toast.makeText(this,"There are no paired devices at this moment.",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"There are no paired bluetooth_device at this moment.",Toast.LENGTH_LONG).show();
         }
     }
 

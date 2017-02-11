@@ -1,23 +1,19 @@
 package com.mdevsolutions.bttestzone.model;
 
 /**
- * Local BluetoothDevice Data to be displayed in the recycler view
+ * Local BtDevice Data to be displayed in the recycler view
  */
-public class BluetoothDevice {
+public class BtDevice {
     public String mName;
     public String mAddress;
-    public int mRssi;
+    //public String mRssi;
 
-    public int getmRssi() {
-        return mRssi;
-    }
+    //public String getRssi() {return mRssi;}
 
-    public void setRssi(int rssi) {
-        this.mRssi = mRssi;
-    }
+    //public void setRssi(String rssi) {this.mRssi = rssi;}
 
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
@@ -32,6 +28,7 @@ public class BluetoothDevice {
     public void setAddress(String address) {
         this.mAddress = address;
     }
+
 
 
 
